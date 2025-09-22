@@ -8,9 +8,13 @@ import styled from 'styled-components';
 import ChampionCard from './components/ChampionCard';
 import ChampionDetails from './pages/ChampionDetails';
 import LoginPage from './pages/Login';
-import RegisterPage from './pages/Register'; // Importa a nova página
+import RegisterPage from './pages/Register';
 import ProtectedRoute from './components/ProtectedRoute';
 import ProfilePage from './pages/Profile';
+
+// Novas páginas
+import BuildsPage from './pages/BuildsPage';
+import CountersPage from './pages/CountersPage';
 
 // Contextos
 import { BackgroundContext } from './context/BackgroundContext';
@@ -118,6 +122,20 @@ const ChampionsGrid = styled.div`
   &:hover a { opacity: 0.1; }
 `;
 
+const NavBar = styled.nav`
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 20px;
+`;
+
+const NavLink = styled(Link)`
+  text-decoration: none;
+  color: #f0e6d2;
+  font-weight: bold;
+  &:hover { color: #c8aa6e; }
+`;
+
 // --- HomePage Componente ---
 const HomePage = ({ champions, loading, error }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -133,7 +151,11 @@ const HomePage = ({ champions, loading, error }) => {
         </HeaderContent>
       </Header>
       <SearchContainer>
-        <SearchInput placeholder="Buscar por nome do campeão..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+        <SearchInput
+          placeholder="Buscar por nome do campeão..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </SearchContainer>
       {loading && <p>Carregando...</p>}
       {error && <p>{error}</p>}
@@ -174,6 +196,13 @@ function App() {
       <BackgroundContainer style={{ backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none' }} />
       <AppContainer>
         <MainContent>
+
+          {/* Navegação para novas páginas */}
+          <NavBar>
+            <NavLink to="/builds">Builds</NavLink>
+            <NavLink to="/counters">Counters</NavLink>
+          </NavBar>
+
           <Routes>
             {/* Rotas Públicas */}
             <Route path="/" element={<LoginPage champions={champions} loading={loading} />} />
@@ -183,6 +212,10 @@ function App() {
             <Route path="/champions" element={<ProtectedRoute><HomePage champions={champions} loading={loading} error={error} /></ProtectedRoute>} />
             <Route path="/champion/:championId" element={<ProtectedRoute><ChampionDetails /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+
+            {/* Novas Páginas */}
+            <Route path="/builds" element={<ProtectedRoute><BuildsPage /></ProtectedRoute>} />
+            <Route path="/counters" element={<ProtectedRoute><CountersPage /></ProtectedRoute>} />
           </Routes>
         </MainContent>
       </AppContainer>
