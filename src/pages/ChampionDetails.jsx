@@ -47,7 +47,7 @@ const ChampionDetails = () => {
 
   return (
     <div className="details-container">
-      <Link to="/" className="back-button">← Voltar para a lista</Link>
+      <Link to="/champions" className="back-button">← Voltar para a lista</Link>
       
       <div className="champion-header">
         <h1 className="champion-name">{champion.name}</h1>

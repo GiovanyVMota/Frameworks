@@ -5,16 +5,22 @@ import { Routes, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import ChampionCard from './components/ChampionCard';
 import ChampionDetails from './pages/ChampionDetails';
+import LoginPage from './pages/Login'; // <- Importar LoginPage
 import './App.css';
 import { BackgroundContext } from './context/BackgroundContext';
 
-const HomePage = ({ champions, loading, error, searchTerm, setSearchTerm }) => {
+// O componente HomePage foi movido para dentro de App.jsx para simplificar
+const HomePage = ({ champions, loading, error }) => {
+  const [searchTerm, setSearchTerm] = useState('');
   const filteredChampions = champions.filter(champion => 
     champion.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <>
+      <header className="header">
+        <h1>Explorador de Campeões de LoL</h1>
+      </header>
       <div className="search-container">
         <input 
           type="text"
@@ -45,14 +51,13 @@ function App() {
   const [champions, setChampions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
   
   const { backgroundImage } = useContext(BackgroundContext);
 
-  const apiVersion = '14.1.1';
-  const apiUrl = `https://ddragon.leagueoflegends.com/cdn/${apiVersion}/data/pt_BR/champion.json`;
-
   useEffect(() => {
+    const apiVersion = '14.1.1';
+    const apiUrl = `https://ddragon.leagueoflegends.com/cdn/${apiVersion}/data/pt_BR/champion.json`;
+
     const fetchChampions = async () => {
       try {
         setLoading(true);
@@ -78,18 +83,14 @@ function App() {
       }}></div>
       
       <div className="app-container">
-        <header className="header">
-          <h1>Explorador de Campeões de LoL</h1>
-        </header>
         <main className="main-content">
           <Routes>
-            <Route path="/" element={
+            <Route path="/" element={<LoginPage champions={champions} />} />
+            <Route path="/champions" element={
               <HomePage 
                 champions={champions} 
                 loading={loading} 
                 error={error} 
-                searchTerm={searchTerm} 
-                setSearchTerm={setSearchTerm} 
               />
             } />
             <Route path="/champion/:championId" element={<ChampionDetails />} />

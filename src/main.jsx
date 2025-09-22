@@ -6,13 +6,16 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import './index.css';
 import { BackgroundProvider } from './context/BackgroundContext';
+import { AuthProvider } from './context/AuthContext'; // <- Importar
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-      <BackgroundProvider>
-        <App />
-      </BackgroundProvider>
+      <AuthProvider> {/* <- Envolver com o AuthProvider */}
+        <BackgroundProvider>
+          <App />
+        </BackgroundProvider>
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );

@@ -115,3 +115,8 @@
   border-radius: 5px;
   font-weight: bold;
 }
+@media (max-width: 600px) {
+  .stats-list {
+    grid-template-columns: 1fr; /* Muda para uma coluna em telas menores */
+  }
+}

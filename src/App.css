@@ -1,8 +1,7 @@
 /* src/App.css */
-
 body {
   font-family: Arial, sans-serif;
-  background-color: #0d0d0d;
+  /* background-color: #0d0d0d; */ /* REMOVA ESTA LINHA */
   color: #eee;
   margin: 0;
   padding: 0;
@@ -21,7 +20,6 @@ body {
   transition: background-image 0.5s ease-in-out;
   /* A imagem de fundo será escurecida com um pseudo-elemento */
 }
-
 .background-container::after {
   content: '';
   position: absolute;
@@ -90,11 +88,12 @@ body {
 
 .champions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Aumentado de 180px para 200px */
   gap: 20px;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  align-items: stretch; /* Garante que todos os cards na mesma linha tenham a mesma altura */
 }
 
 .error-message {
@@ -106,4 +105,19 @@ body {
 .champion-link {
   text-decoration: none;
   color: inherit;
+}
+/* Adiciona uma transição suave para a opacidade e transformação nos links dos cards */
+.champion-link {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Quando o mouse estiver sobre a grade de campeões... */
+.champions-grid:hover .champion-link {
+  opacity: 0.1; /* ...todos os cards ficam com a opacidade bem baixa. */
+}
+
+/* E para o card específico em que o mouse está em cima... */
+.champions-grid .champion-link:hover {
+  opacity: 1; /* ...a opacidade volta a ser 100%. */
+  transform: scale(1.05); /* Opcional: aumenta um pouco o tamanho para dar mais destaque. */
 }
