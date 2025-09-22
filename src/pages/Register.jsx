@@ -1,10 +1,10 @@
-// src/pages/Login.jsx
+// src/pages/Register.jsx
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { useAuth } from '../context/AuthContext';
 
-// --- Styled Components ---
+// --- Styled Components (reutilizados e adaptados) ---
 const fadeIn = keyframes`
   from { opacity: 0; transform: scale(1.05); }
   to { opacity: 1; transform: scale(1); }
@@ -92,16 +92,13 @@ const BottomLink = styled.p`
 `;
 
 // --- Componente ---
-const LoginPage = ({ champions, loading }) => {
-  const { login } = useAuth();
+const RegisterPage = ({ champions, loading }) => {
+  const { register } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [currentBgIndex, setCurrentBgIndex] = useState(0);
-
-  const from = location.state?.from?.pathname || "/champions";
 
   useEffect(() => {
     if (!loading && champions.length > 0) {
@@ -112,14 +109,16 @@ const LoginPage = ({ champions, loading }) => {
     }
   }, [champions, loading]);
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
     try {
-      await login(email, password);
-      navigate(from, { replace: true });
+      await register(email, password);
+      navigate('/champions');
     } catch (err) {
-      setError("Falha ao fazer login. Verifique suas credenciais.");
+      if (err.code === 'auth/email-already-in-use') setError("Este e-mail já está em uso.");
+      else if (err.code === 'auth/weak-password') setError("A senha deve ter no mínimo 6 caracteres.");
+      else setError("Falha ao criar a conta.");
     }
   };
 
@@ -134,20 +133,20 @@ const LoginPage = ({ champions, loading }) => {
       <Background key={backgroundUrl} style={{ backgroundImage: `url(${backgroundUrl})` }} />
       <Overlay />
       <FormContainer>
-        <h1>Bem-vindo ao Explorador de Campeões</h1>
-        <p>Faça o login para continuar</p>
-        <Form onSubmit={handleLogin}>
+        <h1>Criar Conta</h1>
+        <p>Junte-se ao Explorador de Campeões</p>
+        <Form onSubmit={handleRegister}>
           {error && <p style={{color: 'red'}}>{error}</p>}
           <input type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)} />
-          <input type="password" placeholder="Senha" required value={password} onChange={(e) => setPassword(e.target.value)} />
-          <button type="submit">Entrar</button>
+          <input type="password" placeholder="Senha (mínimo 6 caracteres)" required value={password} onChange={(e) => setPassword(e.target.value)} />
+          <button type="submit">Registrar</button>
         </Form>
         <BottomLink>
-          Não tem uma conta? <Link to="/register">Registre-se</Link>
+          Já tem uma conta? <Link to="/">Faça o login</Link>
         </BottomLink>
       </FormContainer>
     </PageContainer>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
