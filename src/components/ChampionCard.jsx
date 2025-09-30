@@ -9,6 +9,7 @@ const CardLink = styled(Link)`
   text-decoration: none;
   color: inherit;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  width: 200px; /* <-- ADICIONE ESTA LINHA */
 
   &:hover {
     opacity: 1 !important;

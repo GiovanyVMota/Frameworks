@@ -108,13 +108,17 @@ const SearchInput = styled.input`
 `;
 
 const ChampionsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
+  justify-content: center;
   width: 100%;
   max-width: 1200px;
-  align-items: stretch;
-  &:hover a { opacity: 0.1; }
+  margin: 0 auto;
+
+  &:hover a {
+    opacity: 0.2;
+  }
 `;
 
 // --- HomePage Componente ---
