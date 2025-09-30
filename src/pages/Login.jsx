@@ -9,96 +9,46 @@ const fadeIn = keyframes`
   from { opacity: 0; transform: scale(1.05); }
   to { opacity: 1; transform: scale(1); }
 `;
-
 const PageContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  color: #fff;
+  width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; color: #fff;
 `;
-
 const Background = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  z-index: 1;
-  animation: ${fadeIn} 1.5s ease-in-out;
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; animation: ${fadeIn} 1.5s ease-in-out;
 `;
-
 const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 2;
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); z-index: 2;
 `;
-
 const FormContainer = styled.div`
-  z-index: 3;
-  text-align: center;
-  background-color: rgba(10, 10, 10, 0.7);
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  z-index: 3; text-align: center; background-color: rgba(10, 10, 10, 0.7); padding: 40px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 `;
-
 const Form = styled.form`
-  input {
-    display: block;
-    width: 300px;
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    border: 1px solid #444;
-    background-color: #222;
-    color: #eee;
-    font-size: 1em;
-  }
-  button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    background-color: #c8aa6e;
-    color: #111;
-    font-size: 1.1em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    &:hover { background-color: #f0e6d2; }
-  }
+  input { display: block; width: 300px; padding: 12px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #444; background-color: #222; color: #eee; font-size: 1em; }
+  button { width: 100%; padding: 12px; border: none; border-radius: 5px; background-color: #c8aa6e; color: #111; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: background-color 0.3s; &:hover { background-color: #f0e6d2; } }
 `;
-
 const BottomLink = styled.p`
-  margin-top: 20px;
+  margin-top: 20px; color: #aaa;
+  a { color: #c8aa6e; text-decoration: none; font-weight: bold; &:hover { text-decoration: underline; } }
+`;
+// Novo estilo para o link "Esqueceu a senha"
+const ForgotPasswordLink = styled.a`
+  display: block;
+  margin-top: -5px;
+  margin-bottom: 15px;
+  font-size: 0.9em;
   color: #aaa;
-  a {
-    color: #c8aa6e;
-    text-decoration: none;
-    font-weight: bold;
-    &:hover { text-decoration: underline; }
-  }
+  cursor: pointer;
+  &:hover { color: #c8aa6e; }
 `;
 
 // --- Componente ---
 const LoginPage = ({ champions, loading }) => {
-  const { login } = useAuth();
+  const { login, resetPassword } = useAuth(); // Pega a nova função
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [message, setMessage] = useState(''); // Estado para mensagens de sucesso (como o envio do e-mail)
   const [currentBgIndex, setCurrentBgIndex] = useState(0);
 
   const from = location.state?.from?.pathname || "/champions";
@@ -115,11 +65,28 @@ const LoginPage = ({ champions, loading }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
+    setMessage('');
     try {
       await login(email, password);
       navigate(from, { replace: true });
     } catch (err) {
       setError("Falha ao fazer login. Verifique suas credenciais.");
+    }
+  };
+
+  // --- NOVA FUNÇÃO ---
+  const handlePasswordReset = async () => {
+    if (!email) {
+      setError("Por favor, digite seu e-mail para redefinir a senha.");
+      return;
+    }
+    setError('');
+    setMessage('');
+    try {
+      await resetPassword(email);
+      setMessage("E-mail de redefinição enviado! Verifique sua caixa de entrada.");
+    } catch (err) {
+      setError("Não foi possível enviar o e-mail de redefinição. Verifique o e-mail digitado.");
     }
   };
 
@@ -137,9 +104,13 @@ const LoginPage = ({ champions, loading }) => {
         <h1>Bem-vindo ao Explorador de Campeões</h1>
         <p>Faça o login para continuar</p>
         <Form onSubmit={handleLogin}>
-          {error && <p style={{color: 'red'}}>{error}</p>}
+          {error && <p style={{color: '#ff4d4f'}}>{error}</p>}
+          {message && <p style={{color: '#76c7c0'}}>{message}</p>}
           <input type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)} />
           <input type="password" placeholder="Senha" required value={password} onChange={(e) => setPassword(e.target.value)} />
+          
+          <ForgotPasswordLink onClick={handlePasswordReset}>Esqueceu a senha?</ForgotPasswordLink>
+          
           <button type="submit">Entrar</button>
         </Form>
         <BottomLink>

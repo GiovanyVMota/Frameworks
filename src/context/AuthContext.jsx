@@ -1,11 +1,12 @@
 // src/context/AuthContext.jsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { auth } from '../firebase-config'; // Importa a configuração do Firebase
+import { auth } from '../firebase-config';
 import { 
   onAuthStateChanged, 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
-  signOut 
+  signOut,
+  sendPasswordResetEmail // <- Importe a nova função
 } from 'firebase/auth';
 
 const AuthContext = createContext(null);
@@ -15,20 +16,17 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // O Firebase gerencia a sessão do usuário e nos notifica sobre mudanças
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
     });
-
-    // Limpa o listener quando o componente é desmontado
     return () => unsubscribe();
   }, []);
 
   const register = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
-
+  
   const login = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
@@ -37,15 +35,20 @@ export const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
+  // --- NOVA FUNÇÃO ---
+  const resetPassword = (email) => {
+    return sendPasswordResetEmail(auth, email);
+  };
+
   const value = {
     user,
     loading,
     register,
     login,
     logout,
+    resetPassword, // <- Exponha a função no contexto
   };
 
-  // Não renderiza a aplicação até que a verificação inicial de auth termine
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}

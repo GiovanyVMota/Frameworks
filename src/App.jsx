@@ -55,7 +55,6 @@ const MainContent = styled.main`
 `;
 
 const Header = styled.header`
-  text-align: center;
   margin-bottom: 30px;
   width: 100%;
 `;
