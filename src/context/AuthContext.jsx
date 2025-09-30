@@ -6,7 +6,8 @@ import {
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
   signOut,
-  sendPasswordResetEmail // <- Importe a nova função
+  sendPasswordResetEmail,
+  updatePassword // <- Importe a nova função
 } from 'firebase/auth';
 
 const AuthContext = createContext(null);
@@ -35,9 +36,17 @@ export const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  // --- NOVA FUNÇÃO ---
   const resetPassword = (email) => {
     return sendPasswordResetEmail(auth, email);
+  };
+
+  // --- NOVA FUNÇÃO ---
+  const updateUserPassword = (newPassword) => {
+    if (auth.currentUser) {
+      return updatePassword(auth.currentUser, newPassword);
+    }
+    // Lança um erro se não houver usuário logado
+    return Promise.reject(new Error("Nenhum usuário logado para alterar a senha."));
   };
 
   const value = {
@@ -46,7 +55,8 @@ export const AuthProvider = ({ children }) => {
     register,
     login,
     logout,
-    resetPassword, // <- Exponha a função no contexto
+    resetPassword,
+    updateUserPassword, // <- Exponha a nova função
   };
 
   return (
