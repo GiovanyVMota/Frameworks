@@ -12,7 +12,7 @@ Este projeto foi desenvolvido como avaliação final para a disciplina de Framew
 * **🔐 Autenticação Completa:** Sistema de **Login**, **Registro** e **Redefinição de Senha** utilizando Firebase Authentication.
 * **🛡️ Rotas Protegidas:** Apenas usuários autenticados podem acessar a lista de campeões, detalhes e a página de perfil.
 * **👤 Página de Perfil:** O usuário pode visualizar seu e-mail e **alterar sua senha** diretamente na plataforma.
-* ** CHAMPION_LIST** **Listagem Dinâmica:** Visualização de todos os campeões de League of Legends, com dados consumidos em tempo real da API oficial da Riot Games (Data Dragon).
+* **CHAMPION_LIST** **Listagem Dinâmica:** Visualização de todos os campeões de League of Legends, com dados consumidos em tempo real da API oficial da Riot Games (Data Dragon).
 * **🔍 Busca em Tempo Real:** Filtre os campeões instantaneamente pelo nome.
 * **📄 Página de Detalhes:** Navegação para uma página dedicada a cada campeão, com sua história, título e habilidades.
 * **🎨 UI Interativa e Atraente:**
@@ -110,5 +110,5 @@ Este projeto foi desenvolvido por:
 
 * **Giovany V Mota** - [GitHub](https://github.com/GiovanyVMota)
 * **Tallis Teixeira** - [GitHub](https://github.com/tallismelo07)
-* **Marcos Rezende**` - [GitHub](https://github.com/marcosjrzz)
-* **Hiago Vinicius** - [GitHub]()
+* **Marcos Rezende** - [GitHub](https://github.com/marcosjrzz)
+* **Hiago Vinicius** - [GitHub]()(https://github.com/Hiagovisk)
