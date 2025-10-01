@@ -7,7 +7,7 @@ import {
   createUserWithEmailAndPassword, 
   signOut,
   sendPasswordResetEmail,
-  updatePassword // <- Importe a nova função
+  updatePassword,
 } from 'firebase/auth';
 
 const AuthContext = createContext(null);
@@ -40,12 +40,12 @@ export const AuthProvider = ({ children }) => {
     return sendPasswordResetEmail(auth, email);
   };
 
-  // --- NOVA FUNÇÃO ---
+  
   const updateUserPassword = (newPassword) => {
     if (auth.currentUser) {
       return updatePassword(auth.currentUser, newPassword);
     }
-    // Lança um erro se não houver usuário logado
+
     return Promise.reject(new Error("Nenhum usuário logado para alterar a senha."));
   };
 
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     resetPassword,
-    updateUserPassword, // <- Exponha a nova função
+    updateUserPassword,
   };
 
   return (

@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { useAuth } from '../context/AuthContext';
 
-// --- Styled Components (reutilizados e adaptados) ---
+
 const fadeIn = keyframes`
   from { opacity: 0; transform: scale(1.05); }
   to { opacity: 1; transform: scale(1); }

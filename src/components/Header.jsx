@@ -10,7 +10,7 @@ const Header = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/'); // Redireciona para a home após o logout
+    navigate('/'); 
   };
 
   return (

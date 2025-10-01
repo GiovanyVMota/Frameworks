@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
-// TODO: Substitua o objeto abaixo pelas credenciais do seu projeto Firebase
+
 const firebaseConfig = {
   apiKey: "AIzaSyDOG0u112X8VNRSK8NiEEKy8QdsvM2kwNs",
   authDomain: "lol-champions-app.firebaseapp.com",

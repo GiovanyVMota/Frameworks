@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children }) => {
   const location = useLocation();
 
   if (!user) {
-    // Redireciona para a página de login, mas salva a página que o usuário tentou acessar
+    
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
