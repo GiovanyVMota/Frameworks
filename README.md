@@ -100,7 +100,7 @@ VITE_APP_ID="SEU_APP_ID"
 A aplicação está publicada e pode ser acessada através dos seguintes links:
 
 * **Deploy (Vercel):** `https://frameworks-orp.vercel.app/`
-* **Entrega (CodeSandbox):** `[LINK PÚBLICO DO SEU CODESANDBOX]`
+* **Entrega (CodeSandbox):** `https://codesandbox.io/p/github/GiovanyVMota/Frameworks/main?import=true`
 
 ---
 
@@ -111,4 +111,4 @@ Este projeto foi desenvolvido por:
 * **Giovany V Mota** - [GitHub](https://github.com/GiovanyVMota)
 * **Tallis Teixeira** - [GitHub](https://github.com/tallismelo07)
 * **Marcos Rezende** - [GitHub](https://github.com/marcosjrzz)
-* **Hiago Vinicius** - [GitHub]()(https://github.com/Hiagovisk)
+* **Hiago Vinicius** - [GitHub](https://github.com/Hiagovisk)
